@@ -65,8 +65,12 @@ defmodule Numeric do
   to the built-in float datatype.
 
   It is okay to lose precision during this conversion.
+
+  This function is optional, because there are many numeric types
+  that cannot be (unambiguously) converted into a floating-point number.
   """
   @callback to_float(numStruct) :: float
+  @optional_callbacks to_float: 1
 
   @doc """
   Power function, x^n.

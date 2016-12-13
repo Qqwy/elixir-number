@@ -73,6 +73,17 @@ defmodule Numbers do
   def abs(num = %numericType{}), do: numericType.abs(num)
   def abs(num) when is_number(num), do: Kernel.abs(num)
 
+  defmodule CannotConvertToFloatError do
+    defexception message: "Cannot convert the specified datatype to a Float."
+  end
+  def to_float(num = %numericType{}) do
+    if Kernel.function_exported?(numericType, :to_float, 1) do
+      numericType.to_float(num)
+    else
+      raise CannotConvertToFloatError, message: "#{num} cannot be converted to a Float."
+    end
+  end
+
 
   def pow(base = %numericType{}, exponent) when is_integer(exponent) do
     if Kernel.function_exported?(numericType, :pow, 2) do
@@ -107,6 +118,7 @@ defmodule Numbers do
   defp do_pow_by_sq(x, n, y) when n < 0, do: do_pow_by_sq(div(1, x), Kernel.-(n), y)
   defp do_pow_by_sq(x, n, y) when rem(n, 2) == 0, do: do_pow_by_sq(mul(x, x), Kernel.div(n, 2), y)
   defp do_pow_by_sq(x, n, y), do: do_pow_by_sq(mul(x, x), Kernel.div((n - 1), 2), mul(x, y))
+  
   
 
 
