@@ -5,8 +5,13 @@ defmodule Numeric do
   should make sure that this behaviour is followed.
   """
 
-  @doc "numStruct should be a struct that follows the Numeric behaviour."
+  @typedoc "numStruct should be a struct that follows the Numeric behaviour."
   @type numStruct :: struct
+
+  @typedoc """
+  To be used in your typespecs at any place where a Numeric type can be used.
+  """
+  @type t :: number | numStruct
 
   @doc """
   Creates a new numStruct from the given built-in integer or float.
