@@ -1,8 +1,8 @@
-defmodule Number.Mixfile do
+defmodule Numbers.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :number,
+    [app: :numbers,
      version: "0.1.0",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
@@ -31,20 +31,24 @@ defmodule Number.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:earmark, ">= 0.0.0", only: [:dev]},    # Markdown, dependency of ex_doc
+      {:ex_doc, "~> 0.11",   only: [:dev]},    # Documentation for Hex.pm
+
+    ]
   end
 
   defp description do
     """
-    Number dispatches on any numeric type that follows the `Numeric` behaviour.
+    Numbers dispatches on any numeric type that follows the `Numeric` behaviour.
     This allows you to create composite types working with _any_ numeric type (Decimal, Ratio, ???)!
     """
   end
 
   defp package do
     [# These are the default files included in the package
-      name: :postgrex,
-      files: ["lib", "priv", "mix.exs", "README*", "LICENSE"],
+      name: :numbers,
+      files: ["lib", "mix.exs", "README*", "LICENSE"],
       maintainers: ["Wiebe-Marten Wijnja/Qqwy"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/Qqwy/elixir_number/"}

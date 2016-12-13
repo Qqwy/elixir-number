@@ -1,4 +1,4 @@
-defmodule Number do
+defmodule Numbers do
 
   import Kernel, except: [div: 2]
 
