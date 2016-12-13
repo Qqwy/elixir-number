@@ -76,3 +76,8 @@ The package can be installed as:
     end
     ```
 
+## Changelog
+
+- 2.0.1 Fixing error message that is shown when conversion to float is not possible to use the Inspect protocol. 
+- 2.0.0 Breaking change, `mul` -> `mult`. 
+- 1.0.0 First Stable Version.

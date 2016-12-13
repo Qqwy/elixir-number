@@ -88,7 +88,7 @@ defmodule Numbers do
     if Kernel.function_exported?(numericType, :to_float, 1) do
       numericType.to_float(num)
     else
-      raise CannotConvertToFloatError, message: "#{num} cannot be converted to a Float."
+      raise CannotConvertToFloatError, message: "#{inspect(num)} cannot be converted to a Float."
     end
   end
 
