@@ -44,10 +44,10 @@ defmodule Number.Mixfile do
   defp package do
     [# These are the default files included in the package
       name: :postgrex,
-      files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      files: ["lib", "priv", "mix.exs", "README*", "LICENSE"],
       maintainers: ["Wiebe-Marten Wijnja/Qqwy"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/Qqwy/elixir_number/",
+      links: %{"GitHub" => "https://github.com/Qqwy/elixir_number/"}
     ]
   end
 end

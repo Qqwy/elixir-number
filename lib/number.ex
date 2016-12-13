@@ -1,4 +1,7 @@
 defmodule Number do
+
+  import Kernel, except: [div: 2]
+
   @moduledoc """
   Exposes helper functions to perform math on numbers which might be
   custom data types.
@@ -66,31 +69,44 @@ defmodule Number do
   def minus(num = %numericType{}), do: numericType.minus(num)
   def minus(num) when is_number(num), do: Kernel.-(num)
 
+
   def abs(num = %numericType{}), do: numericType.abs(num)
   def abs(num) when is_number(num), do: Kernel.abs(num)
 
+
   def pow(base = %numericType{}, exponent) when is_integer(exponent) do
     if Kernel.function_exported?(numericType, :pow, 2) do
-      numericType.pow(base, num)
+      numericType.pow(base, exponent)
     else
       # Euclidean algorithm.
       # Exponentiation by Squaring
+      pow_by_sq(base, exponent)
     end
+  end
+
+  # Integer power
+  def pow(base, exponent) when is_integer(base) and is_integer(exponent) do
+    pow_by_sq(base, exponent)
+  end
+
+  # Floating point power, imprecise.
+  def pow(base, exponent) when is_float(base) and is_integer(exponent) do
+    :math.pow(base, exponent)
   end
 
   # Small powers
   defp pow_by_sq(x, 1), do: x
-  defp pow_by_sq(x, 2), do: x * x
-  defp pow_by_sq(x, 3), do: x * x * x
+  defp pow_by_sq(x, 2), do: mul(x, x)
+  defp pow_by_sq(x, 3), do: mul(mul(x, x), x)
   defp pow_by_sq(x, n) when is_integer(n), do: do_pow_by_sq(x, n)
 
   # Exponentiation By Squaring.
   defp do_pow_by_sq(x, n, y \\ 1)
   defp do_pow_by_sq(_x, 0, y), do: y
-  defp do_pow_by_sq(x, 1, y), do: x * y
-  defp do_pow_by_sq(x, n, y) when n < 0, do: do_pow(div(1, x), Kernel.-(n), y)
-  defp do_pow_by_sq(x, n, y) when rem(n, 2) == 0, do: do_pow(x * x, Kernel.div(n, 2), y)
-  defp do_pow_by_sq(x, n, y), do: do_pow(x * x, Kernel.div((n - 1), 2), x * y)
+  defp do_pow_by_sq(x, 1, y), do: mul(x, y)
+  defp do_pow_by_sq(x, n, y) when n < 0, do: do_pow_by_sq(div(1, x), Kernel.-(n), y)
+  defp do_pow_by_sq(x, n, y) when rem(n, 2) == 0, do: do_pow_by_sq(mul(x, x), Kernel.div(n, 2), y)
+  defp do_pow_by_sq(x, n, y), do: do_pow_by_sq(mul(x, x), Kernel.div((n - 1), 2), mul(x, y))
   
 
 
