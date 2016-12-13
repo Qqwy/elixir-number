@@ -58,13 +58,13 @@ iex> N.pow(small_number, 100)
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+The package can be installed as:
 
   1. Add `number` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:number, "~> 1.0.0"}]
+      [{:number, "~> 2.0.0"}]
     end
     ```
 
