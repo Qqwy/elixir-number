@@ -3,62 +3,58 @@ defmodule Numeric do
   Any module that wants to be a Numeric type,
   and to be able to be called by the functions in Number,
   should make sure that this behaviour is followed.
+
+  Your callbacks will only ever be called with two versions of your Numeric struct.
+  If one of the functions in Number is called with one of the arguments being an integer or float,
+  then it is first converted to your Numeric struct by calling `YourStructModule.new(the_int_or_float)` on it.
   """
 
-  @typedoc "numStruct should be a struct that follows the Numeric behaviour."
-  @type numStruct :: struct
+  @typedoc "numericStruct should be a struct that follows the Numeric behaviour."
+  @type numericStruct :: struct
 
   @typedoc """
   To be used in your typespecs at any place where a Numeric type can be used.
   """
-  @type t :: number | numStruct
+  @type t :: number | numericStruct
 
   @doc """
-  Creates a new numStruct from the given built-in integer or float.
+  Creates a new numericStruct from the given built-in integer or float.
 
   In the case of reading a float, it is okay to lose precision.
   """
-  @callback new(integer | float) :: numStruct
+  @callback new(integer | float) :: numericStruct
 
   @doc """
   Adds two numbers together.
   """
-  @callback add(number, numStruct) :: numStruct
-  @callback add(numStruct, number) :: numStruct
-  @callback add(numStruct, numStruct) :: numStruct
+  @callback add(numericStruct, numericStruct) :: numericStruct
 
   @doc """
   Subtracts the rhs number from the lhs number.
   """
-  @callback sub(number, numStruct) :: numStruct
-  @callback sub(numStruct, number) :: numStruct
-  @callback sub(numStruct, numStruct) :: numStruct
+  @callback sub(numericStruct, numericStruct) :: numericStruct
 
   @doc """
   Multiplies the two numbers together.
   """
-  @callback mul(number, numStruct) :: numStruct
-  @callback mul(numStruct, number) :: numStruct
-  @callback mul(numStruct, numStruct) :: numStruct
+  @callback mul(numericStruct, numericStruct) :: numericStruct
 
   @doc """
   Divides the rhs by the lhs.
 
   To be clear, this division operation is supposed to keep precision.
   """
-  @callback div(number, numStruct) :: numStruct
-  @callback div(numStruct, number) :: numStruct
-  @callback div(numStruct, numStruct) :: numStruct
+  @callback div(numericStruct, numericStruct) :: numericStruct
 
   @doc """
   Unary minus. Should return the negation of the number.
   """
-  @callback minus(numStruct) :: numStruct
+  @callback minus(numericStruct) :: numericStruct
 
   @doc """
   The absolute value of a number.
   """
-  @callback abs(numStruct) :: numStruct
+  @callback abs(numericStruct) :: numericStruct
 
   @doc """
   Convert the custom Numeric struct
@@ -69,7 +65,7 @@ defmodule Numeric do
   This function is optional, because there are many numeric types
   that cannot be (unambiguously) converted into a floating-point number.
   """
-  @callback to_float(numStruct) :: float
+  @callback to_float(numericStruct) :: float
   @optional_callbacks to_float: 1
 
   @doc """
@@ -80,7 +76,7 @@ defmodule Numeric do
 
   Add it to your data type if it is possible to compute a power using a faster algorithm.
   """
-  @callback pow(numStruct, integer) :: numStruct
+  @callback pow(numericStruct, integer) :: numericStruct
 
   @optional_callbacks pow: 2
 

@@ -3,7 +3,7 @@ defmodule Numbers.Mixfile do
 
   def project do
     [app: :numbers,
-     version: "0.1.1",
+     version: "1.0.0",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -41,7 +41,7 @@ defmodule Numbers.Mixfile do
   defp description do
     """
     Numbers dispatches on any numeric type that follows the `Numeric` behaviour.
-    This allows you to create composite types working with _any_ numeric type (Decimal, Ratio, ???)!
+    This allows you to create composite types working with _any_ numeric type (Decimal, Ratio, Tensor, ???)!
     """
   end
 

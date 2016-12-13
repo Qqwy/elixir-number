@@ -3,20 +3,12 @@ defmodule Numbers do
   import Kernel, except: [div: 2]
 
   @moduledoc """
-  Exposes helper functions to perform math on numbers which might be
-  custom data types.
-  This allows Compex Numbers to be built on any kind of numeric class.
+  Allows you to perform math on any kind of data structure that follows the Numeric behaviour.
 
-  Math with custom data types is supported, as long as:
+  This includes plain Integer and Floats, but also many custom numeric types specified in packages
+  (such as Ratio, Decimal, Tensor, ComplexNum).
 
-  1) One or both of the operands are of the type structModule. The arguments are passed to `structModule` as-is:
-     if `structModule` supports addition, subtraction, etc. with one of the numbers being a built-in number (e.g. Integer or Float), then this is also supported by the MathHelper.
-  2) This `structModule` module exposes the arity-2 functions `add`, `sub`, `mul`, `div` to do addition, subtraction, multiplication and division, respectively.
-  3) This `structModule` exposes the arity-1 function `minus` to negate a number and `abs` to change a number to its absolute value.
-
-
-  Note that `div` is supposed to be precise division (i.e. no rounding should be performed).
-  """
+ """
 
   # Attempt to add two real numbers together.
   # Does not make assumptions on the types of A and B.
@@ -51,12 +43,12 @@ defmodule Numbers do
 
     # struct + num
     def unquote(name)(a = %numericType{}, b) when is_number(b) do
-      numericType.unquote(name)(a, b)
+      numericType.unquote(name)(a, numericType.new(b))
     end
 
     #num + struct
     def unquote(name)(a, b = %numericType{}) when is_number(a) do
-      numericType.unquote(name)(a, b)
+      numericType.unquote(name)(numericType.new(a), b)
     end
 
     # struct + struct
