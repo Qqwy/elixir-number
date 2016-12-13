@@ -7,7 +7,11 @@ defmodule Number.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     deps: deps(),
+
+     description: description(),
+     package: package()
+    ]
   end
 
   # Configuration for the OTP application
@@ -28,5 +32,22 @@ defmodule Number.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     []
+  end
+
+  defp description do
+    """
+    Number dispatches on any numeric type that follows the `Numeric` behaviour.
+    This allows you to create composite types working with _any_ numeric type (Decimal, Ratio, ???)!
+    """
+  end
+
+  defp package do
+    [# These are the default files included in the package
+      name: :postgrex,
+      files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      maintainers: ["Wiebe-Marten Wijnja/Qqwy"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/Qqwy/elixir_number/",
+    ]
   end
 end
