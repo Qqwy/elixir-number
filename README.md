@@ -27,6 +27,35 @@ This is done by writing a Behaviour called `Numeric`, which standardizes the nam
 The `Numbers` module then dispatches these functions to YourStructModule when called with a `%YourStructModule{}` struct as one or both of its arguments.
 If the other argument is a Float or Integer, then it is first converted to an instance of YourStruct by calling `YourStructModule.new(the_int_or_float)` on it.
 
+## Examples:
+
+Using built-in numbers:
+```
+iex> alias Numbers, as: N
+
+iex> N.add(1, 2)
+3
+
+iex> N.mul(3,5)
+15
+
+iex> N.mul(1.5, 100)
+150.0
+```
+
+Using Decimals: (requires the [Decimal](https://hex.pm/packages/decimal) library.)
+```
+iex> d = Decimal.new(2)
+iex> N.div(d, 10)
+#Decimal<0.2>
+iex> small_number = N.div(d, 1234)
+#Decimal<0.001620745542949756888168557536>
+iex> N.pow(small_number, 100)
+
+```
+
+
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:

@@ -37,7 +37,7 @@ defmodule Numeric do
   @doc """
   Multiplies the two numbers together.
   """
-  @callback mul(numericStruct, numericStruct) :: numericStruct
+  @callback mult(numericStruct, numericStruct) :: numericStruct
 
   @doc """
   Divides the rhs by the lhs.

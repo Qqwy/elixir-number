@@ -33,7 +33,7 @@ defmodule Numbers do
   #   numericType.add(a, b)
   # end
 
-  binary_operations = [add: &+/2, sub: &-/2, mul: &*/2, div: &//2]
+  binary_operations = [add: &+/2, sub: &-/2, mult: &*/2, div: &//2]
 
   for {name, kernelFun} <- binary_operations do
     # num + num
@@ -124,17 +124,17 @@ defmodule Numbers do
 
   # Small powers
   defp pow_by_sq(x, 1), do: x
-  defp pow_by_sq(x, 2), do: mul(x, x)
-  defp pow_by_sq(x, 3), do: mul(mul(x, x), x)
+  defp pow_by_sq(x, 2), do: mult(x, x)
+  defp pow_by_sq(x, 3), do: mult(mult(x, x), x)
   defp pow_by_sq(x, n) when is_integer(n), do: do_pow_by_sq(x, n)
 
   # Exponentiation By Squaring.
   defp do_pow_by_sq(x, n, y \\ 1)
   defp do_pow_by_sq(_x, 0, y), do: y
-  defp do_pow_by_sq(x, 1, y), do: mul(x, y)
+  defp do_pow_by_sq(x, 1, y), do: mult(x, y)
   defp do_pow_by_sq(x, n, y) when n < 0, do: do_pow_by_sq(div(1, x), Kernel.-(n), y)
-  defp do_pow_by_sq(x, n, y) when rem(n, 2) == 0, do: do_pow_by_sq(mul(x, x), Kernel.div(n, 2), y)
-  defp do_pow_by_sq(x, n, y), do: do_pow_by_sq(mul(x, x), Kernel.div((n - 1), 2), mul(x, y))
+  defp do_pow_by_sq(x, n, y) when rem(n, 2) == 0, do: do_pow_by_sq(mult(x, x), Kernel.div(n, 2), y)
+  defp do_pow_by_sq(x, n, y), do: do_pow_by_sq(mult(x, x), Kernel.div((n - 1), 2), mult(x, y))
   
   
 
