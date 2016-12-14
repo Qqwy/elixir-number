@@ -11,6 +11,9 @@ defmodule Numbers do
   """
 
   defmodule AmbiguousOperandsError do
+    @moduledoc """
+    Raised when add/2, sub/2, mult/2 or div/2 is called with two different kinds of structs as arguments.
+    """
     defexception message: "Cannot perform arithmetic with two different kinds of operands.\n Convert them to the same types beforehand."
   end
 
@@ -45,12 +48,35 @@ defmodule Numbers do
   end
 
   defmodule CannotCoerceError do
+    @moduledoc """
+    Raised by `coerce/2` when coercion is not possible.
+    """
     defexception message: "Cannot convert the number to the specified type."
   end
 
+  @doc """
+  Attempts to coerce a built-in datatype `num` to a struct of type `numericType`
+  by calling `numericType.new(num)`.
+
+  This function will raise an `CannotCoerceError` if:
+
+  - There is no `numericType.new/1` function available.
+  - The function is available but returns an ArgumentError for the passed built-in data type.
+
+  """
   def coerce(numericType, num) when is_atom(numericType) and is_number(num) do
     if Kernel.function_exported?(numericType, :new, 1) do
-      numericType.new(num)
+      try do
+        numericType.new(num)
+      rescue
+        e in ArgumentError ->
+          raise CannotCoerceError, message: """
+          The coercion of #{inspect(num)} to #{numericType} failed for the following reason:
+          #{e.message}
+          Stacktrace:
+          #{Exception.format_stacktrace}
+          """
+      end
     else
       raise CannotCoerceError, message: "#{inspect(num)} cannot be coerced to a #{numericType}."
     end
@@ -69,6 +95,9 @@ defmodule Numbers do
   def abs(num) when is_number(num), do: Kernel.abs(num)
 
   defmodule CannotConvertToFloatError do
+    @doc """
+    Raised by `to_float/1` when (lossy) conversion to float is not possible.
+    """
     defexception message: "Cannot convert the specified datatype to a Float."
   end
 
