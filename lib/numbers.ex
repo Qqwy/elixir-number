@@ -162,8 +162,4 @@ defmodule Numbers do
   defp do_pow_by_sq(x, n, y) when n < 0, do: do_pow_by_sq(div(1, x), Kernel.-(n), y)
   defp do_pow_by_sq(x, n, y) when rem(n, 2) == 0, do: do_pow_by_sq(mult(x, x), Kernel.div(n, 2), y)
   defp do_pow_by_sq(x, n, y), do: do_pow_by_sq(mult(x, x), Kernel.div((n - 1), 2), mult(x, y))
-  
-  
-
-
 end
