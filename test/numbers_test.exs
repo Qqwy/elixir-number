@@ -12,7 +12,6 @@ defmodule NumbersTest do
     for {lhs, rhs} <- pairs do
       for {operation, kernel_operation} <- binary_operations do
         # builtin + builtin
-        IO.inspect({lhs, rhs})
         test "Numbers.#{operation}/2 delegates to Kernel function #{inspect(kernel_operation)} for built-in #{type} (#{lhs}, #{rhs})." do
           a = unquote(lhs)
           b = unquote(rhs)
