@@ -21,21 +21,11 @@ defmodule Numbers do
 
   @doc """
   Adds two Numeric `a` and `b` together.
-
-  ## Example:
-
-  iex> Numbers.add(1, 2)
-  iex> Numbers.add(10.0, 123)
   """
   def add(a, b)
 
   @doc """
   Subtracts the Numeric `b` from the Numeric `a`.
-
-  ## Example:
-
-  iex> Numbers.sub(1, 2)
-  iex> Numbers.sub(10.0, 123)
   """
   def sub(a, b)
 
