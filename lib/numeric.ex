@@ -21,8 +21,12 @@ defmodule Numeric do
   Creates a new numericStruct from the given built-in integer or float.
 
   In the case of reading a float, it is okay to lose precision.
+
+  This callback is optional, because there are data types for which this conversion
+  is impossible or ambiguous.
   """
   @callback new(integer | float) :: numericStruct
+  @optional_callbacks new: 1
 
   @doc """
   Adds two numbers together.

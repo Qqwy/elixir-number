@@ -8,30 +8,11 @@ defmodule Numbers do
   This includes plain Integer and Floats, but also many custom numeric types specified in packages
   (such as Ratio, Decimal, Tensor, ComplexNum).
 
- """
+  """
 
-  # Attempt to add two real numbers together.
-  # Does not make assumptions on the types of A and B.
-  # As long as they are the same kind of struct, will call structModule.add(a, b).
-  # Will use Kernel.+(a, b) for built-in numeric types.
-  # defp real_add(a, b)
-
-  # defp real_add(a, b) when is_number(a) and is_number(b) do
-  #   Kernel.+(a, b)
-  # end
-
-  # defp real_add(a = %numericType{}, b = %numericType{}) do
-  #   numericType.add(a, b)
-  # end
-
-  # defp real_add(a = %numericType{}, b) when is_number(b) do
-  #   numericType.add(a, b)
-  # end
-
-
-  # defp real_add(a, b = %numericType{}) when is_number(a) do
-  #   numericType.add(a, b)
-  # end
+  defmodule AmbiguousOperandsError do
+    defexception message: "Cannot perform arithmetic with two different kinds of operands.\n Convert them to the same types beforehand."
+  end
 
   binary_operations = [add: &+/2, sub: &-/2, mult: &*/2, div: &//2]
 
@@ -41,21 +22,38 @@ defmodule Numbers do
       unquote(kernelFun).(a, b)
     end
 
-    # struct + num
-    def unquote(name)(a = %numericType{}, b) when is_number(b) do
-      numericType.unquote(name)(a, numericType.new(b))
-    end
-
-    #num + struct
-    def unquote(name)(a, b = %numericType{}) when is_number(a) do
-      numericType.unquote(name)(numericType.new(a), b)
-    end
-
     # struct + struct
     def unquote(name)(a = %numericType{}, b = %numericType{}) do
       numericType.unquote(name)(a, b)
     end
 
+    # struct + otherStruct
+    def unquote(name)(a = %_oneType{}, b = %_differentType{}) do
+      raise AmbiguousOperandsError, message: "Cannot perform arithmetic with two different kinds of operands (#{inspect(a)} vs. #{inspect(b)}).\n Convert them to the same type beforehand."
+    end
+
+    # struct + builtin
+    def unquote(name)(a = %numericType{}, b) do
+      numericType.unquote(name)(a, coerce(numericType, b))
+    end
+
+    # builtin + struct
+    def unquote(name)(a, b = %numericType{}) do
+      numericType.unquote(name)(coerce(numericType, a), b)
+    end
+
+  end
+
+  defmodule CannotCoerceError do
+    defexception message: "Cannot convert the number to the specified type."
+  end
+
+  def coerce(numericType, num) when is_atom(numericType) and is_number(num) do
+    if Kernel.function_exported?(numericType, :new, 1) do
+      numericType.new(num)
+    else
+      raise CannotCoerceError, message: "#{inspect(num)} cannot be coerced to a #{numericType}."
+    end
   end
 
   @doc """
