@@ -10,9 +10,7 @@ defmodule NumbersTest do
 
   for {type, pairs} <- builtin_types do
     for {lhs, rhs} <- pairs do
-
       for {operation, kernel_operation} <- binary_operations do
-
         # builtin + builtin
         IO.inspect({lhs, rhs})
         test "Numbers.#{operation}/2 delegates to Kernel function #{inspect(kernel_operation)} for built-in #{type} (#{lhs}, #{rhs})." do
@@ -23,7 +21,6 @@ defmodule NumbersTest do
 
 
         # struct + builtin
-
         test "Using built-in type #{lhs} (#{type}) as RHS in Numbers.#{operation}/2 works." do
           a = unquote(lhs)
           b = unquote(rhs)
@@ -37,7 +34,32 @@ defmodule NumbersTest do
           assert N.unquote(operation)(a, NumericPair.new(a, b)) == NumericPair.new(N.unquote(operation)(a, a), N.unquote(operation)(a, b))
         end
 
+        # struct + struct
+        test "Simple usage of Struct as both operands for Numbers.#{operation}/2 works (filled with {#{lhs}, #{rhs}})" do
+          a = unquote(lhs)
+          b = unquote(rhs)
+          assert N.unquote(operation)(NumericPair.new(a, b), NumericPair.new(b, a)) == NumericPair.new(N.unquote(operation)(a, b), N.unquote(operation)(b, a))
+        end
 
+        # Error raising if coercion not supported
+        # struct + builtin
+        test "CannotCoerceError is raised when using built-in type #{lhs} (#{type}) as RHS in Numbers.#{operation}/2 for a type that does not have new/1." do
+          a = unquote(lhs)
+          b = unquote(rhs)
+          assert_raise Numbers.CannotCoerceError, fn ->
+            N.unquote(operation)(NumericPairWithoutCoercion.new(a, b), b) == NumericPairWithoutCoercion.new(N.unquote(operation)(a, b), N.unquote(operation)(b, b))
+          end
+
+        end
+
+        # builtin + struct
+        test "CannotCoerceError is raised when using built-in type #{lhs} (#{type}) as LHS in Numbers.#{operation}/2 for a type that does not have new/1." do
+          a = unquote(lhs)
+          b = unquote(rhs)
+          assert_raise Numbers.CannotCoerceError, fn ->
+            N.unquote(operation)(a, NumericPairWithoutCoercion.new(a, b)) == NumericPairWithoutCoercion.new(N.unquote(operation)(a, a), N.unquote(operation)(a, b))
+          end
+        end
       end
 
       test "Numbers.minus/1 works for #{type} #{rhs}" do
@@ -59,7 +81,7 @@ defmodule NumbersTest do
           end
         end
       end
-      
+ 
       if type == Integer do
         for power <- 1..20 do
           test "Numbers.pow(#{lhs}, #{power}) for Integers performs Exponentiation by Squaring (same result as repeated multiplication but faster)" do
@@ -72,6 +94,21 @@ defmodule NumbersTest do
       end
 
 
+      test "Numbers.to_float/1 is supported for built-in #{type}s (called with #{lhs} as argument)" do
+        assert N.to_float(unquote(lhs)) === Kernel.*(1.0, unquote(lhs))
+      end
+
+      test "Numbers.to_float(%SomeStruct{}) works if SomeStruct supports to_float/1 conversion. ({#{lhs}, #{rhs}})" do
+        a = NumericPair.new(unquote(lhs), unquote(rhs))
+        assert N.to_float(a) === Kernel.*(1.0, Kernel.+(unquote(lhs), unquote(rhs)))
+      end
+
+      test "Numbers.to_float(%SomeStruct{}) raises Numbers.CannotConvertToFloatError if SomeStruct does not support to_float/1 conversion. ({#{lhs}, #{rhs}})" do
+        a = NumericPairWithoutCoercion.new(unquote(lhs), unquote(rhs))
+        assert_raise Numbers.CannotConvertToFloatError, fn ->
+          N.to_float(a) === Kernel.*(1.0, Kernel.+(unquote(lhs), unquote(rhs)))
+       end
+      end
     end
   end
 end
