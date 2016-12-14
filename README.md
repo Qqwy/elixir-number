@@ -1,4 +1,8 @@
 # Numbers
+[![hex.pm version](https://img.shields.io/hexpm/v/numbers.svg)](https://hex.pm/packages/numbers)
+[![Build Status](https://travis-ci.org/Qqwy/elixir_number.svg?branch=master)](https://travis-ci.org/Qqwy/elixir_number)
+[![Inline docs](http://inch-ci.org/github/qqwy/elixir_number.svg)](http://inch-ci.org/github/qqwy/elixir_number)
+
 
 **Numbers** is a tiny Elixir package that facilitates the creation of libraries
 that want to be able to use _any_ kind of Numeric type.
