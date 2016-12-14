@@ -19,6 +19,39 @@ defmodule Numbers do
 
   binary_operations = [add: &+/2, sub: &-/2, mult: &*/2, div: &//2]
 
+  @doc """
+  Adds two Numeric `a` and `b` together.
+
+  ## Example:
+
+  iex> Numbers.add(1, 2)
+  iex> Numbers.add(10.0, 123)
+  """
+  def add(a, b)
+
+  @doc """
+  Subtracts the Numeric `b` from the Numeric `a`.
+
+  ## Example:
+
+  iex> Numbers.sub(1, 2)
+  iex> Numbers.sub(10.0, 123)
+  """
+  def sub(a, b)
+
+  @doc """
+  Multiplies the Numeric `a` with the Numeric `b`
+  """
+  def mult(a, b)
+
+  @doc """
+  Divides the Numeric `a` by `b`.
+
+  Note that this is a supposed to be a full (non-truncated) division;
+  no rounding or truncation is supposed to happen, even when calculating with integers.
+  """
+  def div(a, b)
+
   for {name, kernelFun} <- binary_operations do
     # num + num
     def unquote(name)(a, b) when is_number(a) and is_number(b) do
