@@ -16,8 +16,8 @@ defmodule NumericPair do
 
   alias Numbers, as: N
 
-
-  def new(a, b \\ 0), do: %__MODULE__{a: a, b: b}
+  def new(a), do: new(a, a)
+  def new(a, b), do: %__MODULE__{a: a, b: b}
 
   def add(x, y), do: new(N.add(x.a, y.a), N.add(x.b, y.b))
   def sub(x, y), do: new(N.sub(x.a, y.a), N.sub(x.b, y.b))

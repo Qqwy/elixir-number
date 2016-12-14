@@ -5,19 +5,39 @@ defmodule NumbersTest do
   alias Numbers, as: N
 
   binary_operations = [add: &+/2, sub: &-/2, mult: &*/2, div: &//2]
-  builtin_types = %{Integer => [{1,2}, {3,4}, {5,6}, {1234, 5678}, {0, 10}],
+  builtin_types = %{Integer => [{1,2}, {3,4}, {5,6}, {1234, -5678}, {-100, 10}],
                     Float   => [{1.0, 2.0}, {123.4, 56.78}, {3.141572, 99812341233212314123.3}]}
 
   for {type, pairs} <- builtin_types do
     for {lhs, rhs} <- pairs do
 
       for {operation, kernel_operation} <- binary_operations do
+
+        # builtin + builtin
         IO.inspect({lhs, rhs})
         test "Numbers.#{operation}/2 delegates to Kernel function #{inspect(kernel_operation)} for built-in #{type} (#{lhs}, #{rhs})." do
           a = unquote(lhs)
           b = unquote(rhs)
           assert N.unquote(operation)(a, b) === unquote(kernel_operation).(a, b)
         end
+
+
+        # struct + builtin
+
+        test "Using built-in type #{lhs} (#{type}) as RHS in Numbers.#{operation}/2 works." do
+          a = unquote(lhs)
+          b = unquote(rhs)
+          assert N.unquote(operation)(NumericPair.new(a, b), b) == NumericPair.new(N.unquote(operation)(a, b), N.unquote(operation)(b, b))
+        end
+
+        # builtin + struct
+        test "Using built-in type #{lhs} (#{type}) as LHS in Numbers.#{operation}/2 works." do
+          a = unquote(lhs)
+          b = unquote(rhs)
+          assert N.unquote(operation)(a, NumericPair.new(a, b)) == NumericPair.new(N.unquote(operation)(a, a), N.unquote(operation)(a, b))
+        end
+
+
       end
 
       test "Numbers.minus/1 works for #{type} #{rhs}" do
@@ -51,14 +71,6 @@ defmodule NumbersTest do
         end
       end
 
-
-      # Coercion into structs
-
-      test "FOO #{lhs}" do
-        a = unquote(lhs)
-        b = unquote(rhs)
-        assert N.add(NumericPair.new(a, b), b) == NumericPair.new(N.add(a, b), b)
-      end
 
     end
   end
