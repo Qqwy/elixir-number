@@ -67,7 +67,6 @@ defmodule Numbers do
     def unquote(name)(a, b = %numericType{}) do
       numericType.unquote(name)(coerce(numericType, a), b)
     end
-
   end
 
   defmodule CannotCoerceError do
