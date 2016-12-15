@@ -72,12 +72,14 @@ defmodule Numbers do
 
     # struct ∘ builtin
     def unquote(name)(a = %numericType{}, b) do
-      numericType.unquote(name)(a, coerce_builtin(numericType, b))
+      {coerced_a, coerced_b} = coerce_builtin(a, b)
+      numericType.unquote(name)(coerced_a, coerced_b)
     end
 
     # builtin ∘ struct
     def unquote(name)(a, b = %numericType{}) do
-      numericType.unquote(name)(coerce_builtin(numericType, a), b)
+      {coerced_a, coerced_b} = coerce_builtin(a, b)
+      numericType.unquote(name)(coerced_a, coerced_b)
     end
   end
 
@@ -103,7 +105,7 @@ defmodule Numbers do
     end
   end
 
-  def coerce(num, struct = %rhsT{}) do
+  defp coerce_builtin(num, struct = %rhsT{}) do
     try do
       if Kernel.function_exported?(rhsT, :coerce, 2) do
         rhsT.coerce(num, struct)

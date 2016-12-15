@@ -63,6 +63,7 @@ defmodule Numeric do
   """
   @callback coerce(numericStruct, t) :: {numericStruct, numericStruct}
   @callback coerce(t, numericStruct) :: {numericStruct, numericStruct}
+  @optional_callbacks coerce: 2
 
   @doc """
   Adds two numbers together.
