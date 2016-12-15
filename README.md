@@ -68,19 +68,18 @@ The package can be installed as:
 
     ```elixir
     def deps do
-      [{:number, "~> 2.0.0"}]
+      [{:number, "~> 3.0.0"}]
     end
     ```
+## Coercion
 
-  2. Ensure `number` is started before your application:
+Version 3.0.0 introduces a new feature: Coercion between data types.
+This allows for conversion of one datatype into an equivalent in another data type,
+without being ambiguous. Check the documentation of `Numeric/coerce/2` for details. :-).
 
-    ```elixir
-    def application do
-      [applications: [:number]]
-    end
-    ```
 
 ## Changelog
+- 3.0.0 Remove public `Numbers.coerce/2` function, as it had confused naming and very limited use. Added optional `Numeric.coerce/2` callback (which works very different from the old `Numbers.coerce/2` function) which is now used underwater when coercion should happen.
 - 2.0.3 Improving documentation.
 - 2.0.2 Adding many tests.
 - 2.0.1 Fixing error message that is shown when conversion to float is not possible to use the Inspect protocol. 
