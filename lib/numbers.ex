@@ -43,29 +43,41 @@ defmodule Numbers do
   def div(a, b)
 
   for {name, kernelFun} <- binary_operations do
-    # num + num
+    # num ∘ num
     def unquote(name)(a, b) when is_number(a) and is_number(b) do
       unquote(kernelFun).(a, b)
     end
 
-    # struct + struct
+    # struct ∘ struct
     def unquote(name)(a = %numericType{}, b = %numericType{}) do
       numericType.unquote(name)(a, b)
     end
 
-    # struct + otherStruct
-    def unquote(name)(a = %_oneType{}, b = %_differentType{}) do
-      raise AmbiguousOperandsError, message: "Cannot perform arithmetic with two different kinds of operands (#{inspect(a)} vs. #{inspect(b)}).\n Convert them to the same type beforehand."
+    # struct ∘ otherStruct
+    def unquote(name)(a = %lhsT{}, b = %rhsT{}) do
+      cond do
+        Kernel.function_exported?(lhsT, :coerce, 2) ->
+          {coerced_a, coerced_b} = lhsT.coerce(a, b)
+          unquote(name)(coerced_a, coerced_b)
+        Kernel.function_exported?(rhsT, :coerce, 2) ->
+          {coerced_a, coerced_b} = rhsT.coerce(a, b)
+          unquote(name)(coerced_a, coerced_b)
+        true ->
+          raise AmbiguousOperandsError, message: """
+          Cannot perform arithmetic with two different kinds of operands (#{inspect(a)} vs. #{inspect(b)}).
+          Convert them to the same type beforehand, or implement coerce/2 for them.
+          """
+      end
     end
 
-    # struct + builtin
+    # struct ∘ builtin
     def unquote(name)(a = %numericType{}, b) do
-      numericType.unquote(name)(a, coerce(numericType, b))
+      numericType.unquote(name)(a, coerce_builtin(numericType, b))
     end
 
-    # builtin + struct
+    # builtin ∘ struct
     def unquote(name)(a, b = %numericType{}) do
-      numericType.unquote(name)(coerce(numericType, a), b)
+      numericType.unquote(name)(coerce_builtin(numericType, a), b)
     end
   end
 
@@ -76,32 +88,49 @@ defmodule Numbers do
     defexception message: "Cannot convert the number to the specified type."
   end
 
-  @doc """
-  Attempts to coerce a built-in datatype `num` to a struct of type `numericType`
-  by calling `numericType.new(num)`.
-
-  This function will raise an `CannotCoerceError` if:
-
-  - There is no `numericType.new/1` function available.
-  - The function is available but returns an ArgumentError for the passed built-in data type.
-
-  """
-  def coerce(numericType, num) when is_atom(numericType) and is_number(num) do
-    if Kernel.function_exported?(numericType, :new, 1) do
-      try do
-        numericType.new(num)
-      rescue
-        e in ArgumentError ->
-          raise CannotCoerceError, message: """
-          The coercion of #{inspect(num)} to #{numericType} failed for the following reason:
-          #{e.message}
-          Stacktrace:
-          #{Exception.format_stacktrace}
-          """
+  @doc false
+  # Coerces built-in types to the type of the struct that was passed.
+  defp coerce_builtin(struct = %lhsT{}, num) do
+    try do
+      if Kernel.function_exported?(lhsT, :coerce, 2) do
+        lhsT.coerce(struct, num)
+      else
+        {struct, coerce_by_calling_new(lhsT, num)}
       end
+    rescue
+      exception in ArgumentError ->
+        raise_cannot_coerce(exception, num, lhsT)
+    end
+  end
+
+  def coerce(num, struct = %rhsT{}) do
+    try do
+      if Kernel.function_exported?(rhsT, :coerce, 2) do
+        rhsT.coerce(num, struct)
+      else
+        {coerce_by_calling_new(rhsT, num), struct}
+      end
+    rescue
+      exception in ArgumentError ->
+        raise_cannot_coerce(exception, num, rhsT)
+    end
+  end
+
+  defp coerce_by_calling_new(numericType, num) do
+    if Kernel.function_exported?(numericType, :new, 1) do
+      numericType.new(num)
     else
       raise CannotCoerceError, message: "#{inspect(num)} cannot be coerced to a #{numericType}."
     end
+  end
+
+  defp raise_cannot_coerce(exception, num, numericType) do
+    raise CannotCoerceError, message: """
+    The coercion of #{inspect(num)} to #{numericType} failed for the following reason:
+    #{exception.message}
+    Stacktrace:
+    #{Exception.format_stacktrace}
+    """
   end
 
   @doc """

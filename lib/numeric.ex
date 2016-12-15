@@ -38,7 +38,7 @@ defmodule Numeric do
   - If struct module does not have a `coerce/2` method, `new/1` is called instead, with the builtin datatype as argument.
   - If both of the parameters are structs, `coerce/2` is called on the left-hand-side argument's struct module.
   - If the left-hand-side argument's struct module does not expose a `coerce/2` method, Numbers will call `coerce/2` on the right-hand-side argument's struct module.
-  - If the right-hand-side argument _also_ does not expose a `coerce/2` method, a Numbers.CannotCoerceError is raised.
+  - If the right-hand-side argument _also_ does not expose a `coerce/2` method, a Numbers.AmbiguousOperandsError is raised.
 
   In all of these cases, the positions of the parameters is kept the same.
 
