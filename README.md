@@ -34,21 +34,23 @@ If the other argument is a Float or Integer, then it is first converted to an in
 ## Examples:
 
 Using built-in numbers:
-```
+
+```elixir
 iex> alias Numbers, as: N
 
 iex> N.add(1, 2)
 3
 
-iex> N.mul(3,5)
+iex> N.mult(3,5)
 15
 
-iex> N.mul(1.5, 100)
+iex> N.mult(1.5, 100)
 150.0
 ```
 
 Using Decimals: (requires the [Decimal](https://hex.pm/packages/decimal) library.)
-```
+
+```elixir
 iex> d = Decimal.new(2)
 iex> N.div(d, 10)
 #Decimal<0.2>
@@ -64,11 +66,11 @@ iex> N.pow(small_number, 100)
 
 The package can be installed as:
 
-  1. Add `number` to your list of dependencies in `mix.exs`:
+  1. Add `numbers` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:number, "~> 3.0.0"}]
+      [{:numbers, "~> 3.0.0"}]
     end
     ```
 ## Coercion
@@ -79,6 +81,8 @@ without being ambiguous. Check the documentation of `Numeric/coerce/2` for detai
 
 
 ## Changelog
+
+- 3.0.1 Improved README
 - 3.0.0 Remove public `Numbers.coerce/2` function, as it had confused naming and very limited use. Added optional `Numeric.coerce/2` callback (which works very different from the old `Numbers.coerce/2` function) which is now used underwater when coercion should happen.
 - 2.0.3 Improving documentation.
 - 2.0.2 Adding many tests.
