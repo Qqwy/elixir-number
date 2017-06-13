@@ -82,6 +82,7 @@ without being ambiguous. Check the documentation of `Numeric/coerce/2` for detai
 
 ## Changelog
 
+- 4.0.0 Breaking change: Move `Numeric` to `Numbers.Numeric`, to follow proper code organization conventions.
 - 3.0.1 Improved README
 - 3.0.0 Remove public `Numbers.coerce/2` function, as it had confused naming and very limited use. Added optional `Numeric.coerce/2` callback (which works very different from the old `Numbers.coerce/2` function) which is now used underwater when coercion should happen.
 - 2.0.3 Improving documentation.

@@ -12,7 +12,7 @@ defmodule NumericPair do
 
   defstruct [:a, :b]
 
-  @behaviour Numeric
+  @behaviour Numbers.Numeric
 
   alias Numbers, as: N
 

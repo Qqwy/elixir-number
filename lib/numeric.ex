@@ -1,4 +1,4 @@
-defmodule Numeric do
+defmodule Numbers.Numeric do
   @moduledoc """
   Any module that wants to be a Numeric type,
   and to be able to be called by the functions in Number,
@@ -9,16 +9,16 @@ defmodule Numeric do
   then it is first converted to your Numeric struct by calling `YourStructModule.new(the_int_or_float)` on it.
   """
 
-  @typedoc "numericStruct should be a struct that follows the Numeric behaviour."
-  @type numericStruct :: struct
+  @typedoc "numeric_struct should be a struct that follows the Numeric behaviour."
+  @type numeric_struct :: struct
 
   @typedoc """
   To be used in your typespecs at any place where a Numeric type can be used.
   """
-  @type t :: number | numericStruct
+  @type t :: number | numeric_struct
 
   @doc """
-  Creates a new numericStruct from the given built-in integer or float.
+  Creates a new numeric_struct from the given built-in integer or float.
 
   In the case of reading a float, it is okay to lose precision.
 
@@ -28,7 +28,7 @@ defmodule Numeric do
   If more control is needed over the creation of a datatype from a built-in type,
   or coercion between two custom data types, implement `coerce/2` instead.
   """
-  @callback new(any) :: numericStruct
+  @callback new(any) :: numeric_struct
   @optional_callbacks new: 1
 
   @doc """
@@ -61,41 +61,41 @@ defmodule Numeric do
   `N.sub(%Bar{qux: 3.1}, %Foo{bar: 1234})` will try to call `Bar.coerce(%Bar{qux: 3.1}, %Foo{bar: 1234})`,
   but as this function does not exist, it will instead call `Foo.coerce(%Bar{qux: 3.1}, %Foo{bar: 1234})`.
   """
-  @callback coerce(numericStruct, t) :: {numericStruct, numericStruct}
-  @callback coerce(t, numericStruct) :: {numericStruct, numericStruct}
+  @callback coerce(numeric_struct, t) :: {numeric_struct, numeric_struct}
+  @callback coerce(t, numeric_struct) :: {numeric_struct, numeric_struct}
   @optional_callbacks coerce: 2
 
   @doc """
   Adds two numbers together.
   """
-  @callback add(numericStruct, numericStruct) :: numericStruct
+  @callback add(numeric_struct, numeric_struct) :: numeric_struct
 
   @doc """
   Subtracts the rhs number from the lhs number.
   """
-  @callback sub(numericStruct, numericStruct) :: numericStruct
+  @callback sub(numeric_struct, numeric_struct) :: numeric_struct
 
   @doc """
   Multiplies the two numbers together.
   """
-  @callback mult(numericStruct, numericStruct) :: numericStruct
+  @callback mult(numeric_struct, numeric_struct) :: numeric_struct
 
   @doc """
   Divides the rhs by the lhs.
 
   To be clear, this division operation is supposed to keep precision.
   """
-  @callback div(numericStruct, numericStruct) :: numericStruct
+  @callback div(numeric_struct, numeric_struct) :: numeric_struct
 
   @doc """
   Unary minus. Should return the negation of the number.
   """
-  @callback minus(numericStruct) :: numericStruct
+  @callback minus(numeric_struct) :: numeric_struct
 
   @doc """
   The absolute value of a number.
   """
-  @callback abs(numericStruct) :: numericStruct
+  @callback abs(numeric_struct) :: numeric_struct
 
   @doc """
   Convert the custom Numeric struct
@@ -106,7 +106,7 @@ defmodule Numeric do
   This function is optional, because there are many numeric types
   that cannot be (unambiguously) converted into a floating-point number.
   """
-  @callback to_float(numericStruct) :: float
+  @callback to_float(numeric_struct) :: float
   @optional_callbacks to_float: 1
 
   @doc """
@@ -117,7 +117,7 @@ defmodule Numeric do
 
   Add it to your data type if it is possible to compute a power using a faster algorithm.
   """
-  @callback pow(numericStruct, integer) :: numericStruct
+  @callback pow(numeric_struct, integer) :: numeric_struct
 
   @optional_callbacks pow: 2
 

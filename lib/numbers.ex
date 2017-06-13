@@ -42,15 +42,15 @@ defmodule Numbers do
   """
   def div(a, b)
 
-  for {name, kernelFun} <- binary_operations do
+  for {name, kernel_function} <- binary_operations do
     # num ∘ num
     def unquote(name)(a, b) when is_number(a) and is_number(b) do
-      unquote(kernelFun).(a, b)
+      unquote(kernel_function).(a, b)
     end
 
     # struct ∘ struct
-    def unquote(name)(a = %numericType{}, b = %numericType{}) do
-      numericType.unquote(name)(a, b)
+    def unquote(name)(a = %numeric_struct{}, b = %numeric_struct{}) do
+      numeric_struct.unquote(name)(a, b)
     end
 
     # struct ∘ otherStruct
@@ -71,15 +71,15 @@ defmodule Numbers do
     end
 
     # struct ∘ builtin
-    def unquote(name)(a = %numericType{}, b) do
+    def unquote(name)(a = %numeric_struct{}, b) do
       {coerced_a, coerced_b} = coerce_builtin(a, b)
-      numericType.unquote(name)(coerced_a, coerced_b)
+      numeric_struct.unquote(name)(coerced_a, coerced_b)
     end
 
     # builtin ∘ struct
-    def unquote(name)(a, b = %numericType{}) do
+    def unquote(name)(a, b = %numeric_struct{}) do
       {coerced_a, coerced_b} = coerce_builtin(a, b)
-      numericType.unquote(name)(coerced_a, coerced_b)
+      numeric_struct.unquote(name)(coerced_a, coerced_b)
     end
   end
 
@@ -118,17 +118,17 @@ defmodule Numbers do
     end
   end
 
-  defp coerce_by_calling_new(numericType, num) do
-    if Kernel.function_exported?(numericType, :new, 1) do
-      numericType.new(num)
+  defp coerce_by_calling_new(numeric_struct, num) do
+    if Kernel.function_exported?(numeric_struct, :new, 1) do
+      numeric_struct.new(num)
     else
-      raise CannotCoerceError, message: "#{inspect(num)} cannot be coerced to a #{numericType}."
+      raise CannotCoerceError, message: "#{inspect(num)} cannot be coerced to a #{numeric_struct}."
     end
   end
 
-  defp raise_cannot_coerce(exception, num, numericType) do
+  defp raise_cannot_coerce(exception, num, numeric_struct) do
     raise CannotCoerceError, message: """
-    The coercion of #{inspect(num)} to #{numericType} failed for the following reason:
+    The coercion of #{inspect(num)} to #{numeric_struct} failed for the following reason:
     #{exception.message}
     Stacktrace:
     #{Exception.format_stacktrace}
@@ -138,13 +138,13 @@ defmodule Numbers do
   @doc """
   Computes the unary minus of `num`, also known as its negation.
   """
-  def minus(num = %numericType{}), do: numericType.minus(num)
+  def minus(num = %numeric_struct{}), do: numeric_struct.minus(num)
   def minus(num) when is_number(num), do: Kernel.-(num)
 
   @doc """
   Computes the absolute value of `num`.
   """
-  def abs(num = %numericType{}), do: numericType.abs(num)
+  def abs(num = %numeric_struct{}), do: numeric_struct.abs(num)
   def abs(num) when is_number(num), do: Kernel.abs(num)
 
   defmodule CannotConvertToFloatError do
@@ -164,9 +164,9 @@ defmodule Numbers do
   """
   def to_float(num) when is_integer(num), do: num * 1.0
   def to_float(num) when is_float(num), do: num
-  def to_float(num = %numericType{}) do
-    if Kernel.function_exported?(numericType, :to_float, 1) do
-      numericType.to_float(num)
+  def to_float(num = %numeric_struct{}) do
+    if Kernel.function_exported?(numeric_struct, :to_float, 1) do
+      numeric_struct.to_float(num)
     else
       raise CannotConvertToFloatError, message: "#{inspect(num)} cannot be converted to a Float."
     end
@@ -182,9 +182,9 @@ defmodule Numbers do
   If `base` supports direct computation of `pow`, that is used. Otherwise,
   the Exponentiation by Squaring algorithm is used.
   """
-  def pow(base = %numericType{}, exponent) when is_integer(exponent) do
-    if Kernel.function_exported?(numericType, :pow, 2) do
-      numericType.pow(base, exponent)
+  def pow(base = %numeric_struct{}, exponent) when is_integer(exponent) do
+    if Kernel.function_exported?(numeric_struct, :pow, 2) do
+      numeric_struct.pow(base, exponent)
     else
       # Euclidean algorithm.
       # Exponentiation by Squaring
