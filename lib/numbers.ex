@@ -50,7 +50,8 @@ defmodule Numbers do
 
     # struct ∘ struct
     def unquote(name)(a = %numeric_struct{}, b = %numeric_struct{}) do
-      numeric_struct.unquote(name)(a, b)
+      Numbers.Numeric.unquote(name)(a, b)
+      # numeric_struct.unquote(name)(a, b)
     end
 
     # struct ∘ otherStruct

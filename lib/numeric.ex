@@ -1,4 +1,4 @@
-defmodule Numbers.Numeric do
+defprotocol Numbers.Numeric do
   @moduledoc """
   Any module that wants to be a Numeric type,
   and to be able to be called by the functions in Number,
@@ -9,27 +9,27 @@ defmodule Numbers.Numeric do
   then it is first converted to your Numeric struct by calling `YourStructModule.new(the_int_or_float)` on it.
   """
 
-  @typedoc "numeric_struct should be a struct that follows the Numeric behaviour."
-  @type numeric_struct :: struct
+  # @typedoc "t should be a struct that follows the Numeric behaviour."
+  # @type t :: struct
 
-  @typedoc """
-  To be used in your typespecs at any place where a Numeric type can be used.
-  """
-  @type t :: number | numeric_struct
+  # @typedoc """
+  # To be used in your typespecs at any place where a Numeric type can be used.
+  # """
+  # @type t :: number | t
 
-  @doc """
-  Creates a new numeric_struct from the given built-in integer or float.
+  # @doc """
+  # Creates a new t from the given built-in integer or float.
 
-  In the case of reading a float, it is okay to lose precision.
+  # In the case of reading a float, it is okay to lose precision.
 
-  This callback is optional, because there are data types for which this conversion
-  is impossible or ambiguous.
+  # This callback is optional, because there are data types for which this conversion
+  # is impossible or ambiguous.
 
-  If more control is needed over the creation of a datatype from a built-in type,
-  or coercion between two custom data types, implement `coerce/2` instead.
-  """
-  @callback new(any) :: numeric_struct
-  @optional_callbacks new: 1
+  # If more control is needed over the creation of a datatype from a built-in type,
+  # or coercion between two custom data types, implement `coerce/2` instead.
+  # """
+  # @callback new(any) :: t
+  # @optional_callbacks new: 1
 
   @doc """
   `coerce/2` will be called by Numbers if the parameters are not of the same type:
@@ -61,41 +61,46 @@ defmodule Numbers.Numeric do
   `N.sub(%Bar{qux: 3.1}, %Foo{bar: 1234})` will try to call `Bar.coerce(%Bar{qux: 3.1}, %Foo{bar: 1234})`,
   but as this function does not exist, it will instead call `Foo.coerce(%Bar{qux: 3.1}, %Foo{bar: 1234})`.
   """
-  @callback coerce(numeric_struct, t) :: {numeric_struct, numeric_struct}
-  @callback coerce(t, numeric_struct) :: {numeric_struct, numeric_struct}
-  @optional_callbacks coerce: 2
+  @spec coerce(t, other_t :: t) :: {t, t}
+  def coerce(your_struct, other_number)
 
   @doc """
   Adds two numbers together.
   """
-  @callback add(numeric_struct, numeric_struct) :: numeric_struct
+  @spec add(t, t) :: t
+  def add(a, b)
 
   @doc """
   Subtracts the rhs number from the lhs number.
   """
-  @callback sub(numeric_struct, numeric_struct) :: numeric_struct
+  @spec sub(t, t) :: t
+  def sub(a, b)
 
   @doc """
   Multiplies the two numbers together.
   """
-  @callback mult(numeric_struct, numeric_struct) :: numeric_struct
+  @spec mult(t, t) :: t
+  def mult(a, b)
 
   @doc """
   Divides the rhs by the lhs.
 
   To be clear, this division operation is supposed to keep precision.
   """
-  @callback div(numeric_struct, numeric_struct) :: numeric_struct
+  @spec div(t, t) :: t
+  def div(a, b)
 
   @doc """
   Unary minus. Should return the negation of the number.
   """
-  @callback minus(numeric_struct) :: numeric_struct
+  @spec minus(t) :: t
+  def minus(num)
 
   @doc """
   The absolute value of a number.
   """
-  @callback abs(numeric_struct) :: numeric_struct
+  @spec abs(t) :: t
+  def abs(num)
 
   @doc """
   Convert the custom Numeric struct
@@ -106,8 +111,10 @@ defmodule Numbers.Numeric do
   This function is optional, because there are many numeric types
   that cannot be (unambiguously) converted into a floating-point number.
   """
-  @callback to_float(numeric_struct) :: float
-  @optional_callbacks to_float: 1
+  # @callback to_float(t) :: float
+  # @optional_callbacks to_float: 1
+  @spec to_float(num) :: {:ok, num_as_float :: float} | :error
+  def to_float(num)
 
   @doc """
   Power function, x^n.
@@ -117,7 +124,6 @@ defmodule Numbers.Numeric do
 
   Add it to your data type if it is possible to compute a power using a faster algorithm.
   """
-  @callback pow(numeric_struct, integer) :: numeric_struct
-
-  @optional_callbacks pow: 2
+  @spec pow(t, non_neg_integer) :: t
+  def pow(a, b)
 end
