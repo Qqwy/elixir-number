@@ -41,7 +41,7 @@ defmodule Numbers.Mixfile do
   defp description do
     """
     Numbers dispatches on any numeric type that follows the `Numeric` behaviour.
-    This allows you to create composite types working with _any_ numeric type (Decimal, Ratio, Tensor, ???)!
+    This allows you to create composite types working with _any_ numeric type (Decimal, Ratio, Tensor, ComplexNum, ???)!
     """
   end
 

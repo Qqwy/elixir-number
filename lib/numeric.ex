@@ -120,5 +120,4 @@ defmodule Numbers.Numeric do
   @callback pow(numeric_struct, integer) :: numeric_struct
 
   @optional_callbacks pow: 2
-
 end
