@@ -1,6 +1,5 @@
 defmodule Numbers do
   import Kernel, except: [div: 2]
-  require Coerce
 
   @type t :: any
 
