@@ -90,7 +90,7 @@ The package can be installed as:
 
 ## Changelog
 
-- 5.0.0 MAJOR OVERHAUL: New implementation based on a set of Protocols. Should be a lot faster and easier on implementers. Also uses a new method to perform coercions based on the `Coerce` library.
+- 5.0.0 MAJOR OVERHAUL: New implementation based on a set of Protocols. Should be a lot faster and easier on implementers. Also uses a new method to perform coercions based on the `Coerce` library. [Announcement post](https://elixirforum.com/t/numbers-a-generic-wrapper-to-use-any-custom-numeric-type/2846/7)
 - 4.0.0 Breaking change: Move `Numeric` to `Numbers.Numeric`, to follow proper code organization conventions.
 - 3.0.1 Improved README
 - 3.0.0 Remove public `Numbers.coerce/2` function, as it had confused naming and very limited use. Added optional `Numeric.coerce/2` callback (which works very different from the old `Numbers.coerce/2` function) which is now used underwater when coercion should happen.
