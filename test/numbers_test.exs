@@ -80,7 +80,7 @@ defmodule NumbersTest do
           end
         end
       end
- 
+
       if type == Integer do
         for power <- 1..20 do
           test "Numbers.pow(#{lhs}, #{power}) for Integers performs Exponentiation by Squaring (same result as repeated multiplication but faster)" do

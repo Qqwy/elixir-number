@@ -16,20 +16,33 @@ Some known custom numeric types that implement the Numeric behaviour:
 
 ## How does it work?
 
-This is done by writing a Behaviour called `Numeric`, which standardizes the names of the following common mathematical operations:
+Starting at version 5, Numbers contains a set of protocols that can be independently implemented for your data structures.
 
-- `new` to create a new number of the custom type from a basic integer or float (which be an operation that loses precision).
-- `add` for addition.
-- `sub` for subtraction.
-- `mul` for multiplication.
-- `div` for division.
-- `minus` for unary minus (also known as negation).
-- `abs` for taking the absolute value.
-- `pow` _(optional)_ for calculating integer powers. When no custom algorithm is specified by the data type, Numbers will provide a (possibly slower) variant itself using the Exponentiation by Squaring algorithm.
-- `to_float` _(optional)_ For some Numeric data types it is possible to convert it back to a built-in datatype (possibly losing precision in the process).
+Each protocol maps to a single arithmetical operation that your data structure might support.
 
-The `Numbers` module then dispatches these functions to YourStructModule when called with a `%YourStructModule{}` struct as one or both of its arguments.
-If the other argument is a Float or Integer, then it is first converted to an instance of YourStruct by calling `YourStructModule.new(the_int_or_float)` on it.
+Because protocols are used, Numbers can dispatch quite fast!
+Also, Numbers does not restrict your modules to any special naming schemes (as was the case with older versions of Numbers that used a Behaviour).
+
+The following operations are supported:
+
+- `add` for addition, by implementing `Numbers.Protocols.Addition`.
+- `sub` for subtraction, by implementing `Numbers.Protocols.Subtraction`.
+- `mult` for multiplication, by implementing `Numbers.Protocols.Multiplication`.
+- `div` for division, by implementing `Numbers.Protocols.Division`.
+- `minus` for unary minus (negation), by implementing `Numbers.Protocols.Minus`.
+- `abs` to calculate the absolute value of a number, by implementing `Numbers.Protocols.Absolute`.
+- `pow` for calculating integer powers, by implementing `Numbers.Protocols.Exponentiation`. A special helper in `Numbers.Helpers.pow_by_sq` can be used inside this implementation to automatically make use of the _'Exponentiation by Squaring'_ algorithm.
+- `to_float` for (possibly lossy) conversion to the built-in Float datatype, by implementing `Numbers.Protocols.ToFloat`.
+
+## Coercion
+
+Numbers does not automatically transform numbers from one type to another if one of the functions is called with two different types.
+
+Frequently you do want to use other data types together with your custom data type. For this, a custom coercion can be specified,
+using `Coerce.defcoercion` as exposed by the [`Coerce`](https://hex.pm/packages/coerce) library that `Numbers` depends on.
+
+The only coercion that ships with Numbers itself, is a coercion of Integers to Floats, meaning that they work the same way as when using
+the standard library math functions with these types.
 
 ## Examples:
 
@@ -61,7 +74,6 @@ iex> N.pow(small_number, 100)
 ```
 
 
-
 ## Installation
 
 The package can be installed as:
@@ -70,18 +82,13 @@ The package can be installed as:
 
     ```elixir
     def deps do
-      [{:numbers, "~> 3.0.0"}]
+      [{:numbers, "~> 5.0.0"}]
     end
     ```
-## Coercion
-
-Version 3.0.0 introduces a new feature: Coercion between data types.
-This allows for conversion of one datatype into an equivalent in another data type,
-without being ambiguous. Check the documentation of `Numeric/coerce/2` for details. :-).
-
 
 ## Changelog
 
+- 5.0.0 MAJOR OVERHAUL: New implementation based on a set of Protocols. Should be a lot faster and easier on implementers. Also uses a new method to perform coercions based on the `Coerce` library.
 - 4.0.0 Breaking change: Move `Numeric` to `Numbers.Numeric`, to follow proper code organization conventions.
 - 3.0.1 Improved README
 - 3.0.0 Remove public `Numbers.coerce/2` function, as it had confused naming and very limited use. Added optional `Numeric.coerce/2` callback (which works very different from the old `Numbers.coerce/2` function) which is now used underwater when coercion should happen.

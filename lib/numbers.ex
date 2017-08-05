@@ -63,9 +63,8 @@ defmodule Numbers do
   Depends on an implementation existing of `Numbers.Protocol.Exponentiation`
   """
   @spec pow(t, non_neg_integer) :: t
-  def pow(a, b) do
-    {a, b} = Coerce.coerce(a, b)
-    Numbers.Protocols.Exponentiation.pow(a, b)
+  def pow(num, power) do
+    Numbers.Protocols.Exponentiation.pow(num, power)
   end
 
   @doc """
@@ -75,7 +74,6 @@ defmodule Numbers do
   """
   @spec minus(t) :: t
   defdelegate minus(num), to: Numbers.Protocols.Minus
-
 
   @doc """
   The absolute value of a number.

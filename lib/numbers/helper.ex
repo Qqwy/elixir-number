@@ -20,6 +20,5 @@ defmodule Numbers.Helper do
   defp do_pow_by_sq(x, 1, y), do: Numbers.Protocols.Multiplication.mult(x, y)
   defp do_pow_by_sq(x, n, y) when n < 0, do: do_pow_by_sq(Numbers.Protocols.Division.div(Numbers.Protocols.Multiplication.mult_id(x), x), Kernel.-(n), y)
   defp do_pow_by_sq(x, n, y) when rem(n, 2) == 0, do: do_pow_by_sq(Numbers.Protocols.Multiplication.mult(x, x), Kernel.div(n, 2), y)
-  defp do_pow_by_sq(x, n, y), do: do_pow_by_sq(Numbers.Protocols.Multiplication.mult(x, x), Kernel.div((n - 1), 2), Numbers.Protocols.Multiplication.mult(x, y))
-
+  defp do_pow_by_sq(x, n, y), do: do_pow_by_sq(Numbers.Protocols.Multiplication.mult(x, x), Kernel.div((n - 1), 2), Numbers.mult(x, y))
 end

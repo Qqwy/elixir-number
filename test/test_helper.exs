@@ -12,8 +12,6 @@ defmodule NumericPair do
 
   defstruct [:a, :b]
 
-  # @behaviour Numbers.Numeric
-
   alias Numbers, as: N
 
   def new(a), do: new(a, a)
@@ -76,8 +74,6 @@ defmodule NumericPairWithoutCoercion do
   """
 
   defstruct [:a, :b]
-
-  # @behaviour Numeric
 
   alias Numbers, as: N
 
