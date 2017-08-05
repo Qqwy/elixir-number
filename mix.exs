@@ -9,6 +9,8 @@ defmodule Numbers.Mixfile do
      start_permanent: Mix.env == :prod,
      deps: deps(),
 
+     consolidate_protocols: Mix.env != :test, # Required to see new protocol implementations in the *.exs test helper files.
+
      description: description(),
      package: package()
     ]

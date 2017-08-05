@@ -31,6 +31,10 @@ defimpl Numbers.Protocols.Exponentiation, for: Float do
   end
 end
 
+defimpl Numbers.Protocols.ToFloat, for: Float do
+  def to_float(x), do: x
+end
+
 # Allow functions to be called with an int as other argument as well
 require Coerce
 Coerce.defcoercion(Integer, Float) do

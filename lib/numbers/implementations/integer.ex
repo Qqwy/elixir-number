@@ -13,7 +13,6 @@ defimpl Numbers.Protocols.Multiplication, for: Integer do
 end
 
 defimpl Numbers.Protocols.Division, for: Integer do
-  # import Kernel, except: [div: 2]
   def div(a, b), do: Kernel.div(a, b)
 end
 
@@ -30,4 +29,7 @@ defimpl Numbers.Protocols.Exponentiation, for: Integer do
   def pow(x, n) do
     Numbers.Helper.pow_by_sq(x, n)
   end
+end
+defimpl Numbers.Protocols.ToFloat, for: Integer do
+  def to_float(x), do: x + 0.0
 end
