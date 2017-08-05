@@ -3,7 +3,6 @@
 # because it is the newer and less mature library of the two.
 
 if Code.ensure_loaded?(Decimal) do
-
   defimpl Numbers.Protocols.Addition, for: Decimal do
     defdelegate add(a, b), to: Decimal
     def add_id(_num), do: Decimal.new(0)
