@@ -14,7 +14,7 @@ defmodule Numbers do
     Numbers.Protocols.Addition.add(a, b)
   end
 
-  defdelegate add_id(), to: Numbers.Protocols.Multiplication
+  defdelegate add_id(num), to: Numbers.Protocols.Addition
 
   @doc """
   Subtracts the Numeric `b` from the Numeric `a`.
@@ -38,7 +38,7 @@ defmodule Numbers do
     Numbers.Protocols.Multiplication.mult(a, b)
   end
 
-  defdelegate mult_id(), to: Numbers.Protocols.Multiplication
+  defdelegate mult_id(num), to: Numbers.Protocols.Multiplication
 
   @doc """
   Divides the Numeric `a` by `b`.
@@ -76,6 +76,15 @@ defmodule Numbers do
   @spec minus(t) :: t
   defdelegate minus(num), to: Numbers.Protocols.Minus
 
+
+  @doc """
+  The absolute value of a number.
+
+  Depends on an implementation existing of `Numbers.Protocols.Absolute`
+  """
+  @spec abs(t) :: t
+  defdelegate abs(num), to: Numbers.Protocols.Absolute
+
   @doc """
   Convert the custom Numeric struct
   to the built-in float datatype.
@@ -83,5 +92,5 @@ defmodule Numbers do
   This operation might be lossy, losing precision in the process.
   """
   @spec to_float(t) :: {:ok, t_as_float :: float} | :error
-  defdelegate to_float(num), to: Numbers.Protocol.ToFloat
+  defdelegate to_float(num), to: Numbers.Protocols.ToFloat
 end

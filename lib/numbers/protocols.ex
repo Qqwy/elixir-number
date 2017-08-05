@@ -24,8 +24,8 @@ defprotocol Numbers.Protocols.Addition do
   def add(a, b)
 
   @doc """
-  Should return the 'additive identity',
-  which is the value that can be added to another number,
+  Should return the 'additive identity' of the same type as the argument.
+  This is the value that can be added to another number,
   to let the result remain equal to that number.
 
   (For integers, this is `0`, for floats, `0.0`. Most other numeric types have their own 'zero' variant as well.)
@@ -44,8 +44,8 @@ defprotocol Numbers.Protocols.Addition do
 
   (Note that it is fine if the result is not structurally identical, as long as it is logically equal.)
   """
-  @spec add_id() :: t
-  def add_id()
+  @spec add_id(t) :: t
+  def add_id(_num)
 end
 
 defprotocol Numbers.Protocols.Subtraction do
@@ -80,8 +80,8 @@ defprotocol Numbers.Protocols.Multiplication do
   def mult(a, b)
 
   @doc """
-  Should return the 'additive identity',
-  which is the value that can be added to another number,
+  Should return the 'multiplicative identity' of the same type as the argument.
+  This is the value that can be added to another number,
   to let the result remain equal to that number.
 
   (For integers, this is `1`, for floats, `1.0`. Most other numeric types have their own 'one' variant as well.)
@@ -100,8 +100,8 @@ defprotocol Numbers.Protocols.Multiplication do
 
   (Note that it is fine if the result is not structurally identical, as long as it is logically equal.)
   """
-  @spec mult_id() :: t
-  def mult_id()
+  @spec mult_id(t) :: t
+  def mult_id(_num)
 end
 
 defprotocol Numbers.Protocols.Division do

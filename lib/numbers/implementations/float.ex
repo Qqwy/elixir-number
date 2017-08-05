@@ -1,18 +1,18 @@
-defimpl Numbers.ProtocolsAddition, for: Float do
+defimpl Numbers.Protocols.Addition, for: Float do
   def add(a, b), do: a + b
-  def add_id(), do: 0.0
+  def add_id(_), do: 0.0
 end
 
-defimpl Numbers.ProtocolsSubtraction, for: Float do
+defimpl Numbers.Protocols.Subtraction, for: Float do
   def sub(a, b), do: a - b
 end
 
-defimpl Numbers.ProtocolsMultiplication, for: Float do
+defimpl Numbers.Protocols.Multiplication, for: Float do
   def mult(a, b), do: a * b
-  def mult_id(), do: 1.0
+  def mult_id(_), do: 1.0
 end
 
-defimpl Numbers.ProtocolsDivision, for: Float do
+defimpl Numbers.Protocols.Division, for: Float do
   def div(a, b), do: a / b
 end
 
