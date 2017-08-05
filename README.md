@@ -5,14 +5,16 @@
 
 
 **Numbers** is a tiny Elixir package that facilitates the creation of libraries
-that want to be able to use _any_ kind of Numeric type.
+that want to be able to use _any_ kind of Numberlike type.
 
-Some known custom numeric types that implement the Numeric behaviour:
+Some known custom numeric types that implement Numbers' protocols:
 
 - [Ratio](https://hex.pm/packages/ratio) -- rational numbers.
 - [Decimal](https://hex.pm/packages/decimal) -- arbitrary precision decimal numbers.
 - [Tensor](https://hex.pm/packages/tensor) -- Vectors, Matrices and higher-order tensors.
 - [ComplexNum](https://github.com/Qqwy/elixir_complex_num) -- Complex numbers.
+
+Just add one (or multiple) of these libraries to your project, together with Numbers, and you're good to go!
 
 ## How does it work?
 
