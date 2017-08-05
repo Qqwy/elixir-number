@@ -22,6 +22,30 @@ defprotocol Numbers.Protocols.Addition do
   """
   @spec add(t, t) :: t
   def add(a, b)
+
+  @doc """
+  Should return the 'additive identity',
+  which is the value that can be added to another number,
+  to let the result remain equal to that number.
+
+  (For integers, this is `0`, for floats, `0.0`. Most other numeric types have their own 'zero' variant as well.)
+
+  This should be defined so that:
+
+      a = some_num
+      add(a, add_id()) == a
+      add(add_id(), a) == a
+
+  If the numeric structure also implements `Numbers.Protocols.Subtraction`, the following should also be true:
+
+      a = some_num
+      sub(a, add_id()) == a
+      sub(add_id(), a) == a
+
+  (Note that it is fine if the result is not structurally identical, as long as it is logically equal.)
+  """
+  @spec add_id() :: t
+  def add_id()
 end
 
 defprotocol Numbers.Protocols.Subtraction do
@@ -54,6 +78,30 @@ defprotocol Numbers.Protocols.Multiplication do
   """
   @spec mult(t, t) :: t
   def mult(a, b)
+
+  @doc """
+  Should return the 'additive identity',
+  which is the value that can be added to another number,
+  to let the result remain equal to that number.
+
+  (For integers, this is `1`, for floats, `1.0`. Most other numeric types have their own 'one' variant as well.)
+
+  This should be defined so that:
+
+      a = some_num
+      mult(a, mult_id()) == a
+      mult(mult_id(), a) == a
+
+  If the numeric structure also implements `Numbers.Protocols.Division`, the following should also be true:
+
+      a = some_num
+      div(a, mult_id()) == a
+      div(mult_id(), a) == a
+
+  (Note that it is fine if the result is not structurally identical, as long as it is logically equal.)
+  """
+  @spec mult_id() :: t
+  def mult_id()
 end
 
 defprotocol Numbers.Protocols.Division do
@@ -72,7 +120,7 @@ defprotocol Numbers.Protocols.Exponentiation do
 
   Unless a dedicated fast power algorithm exists for your data structure,
   you could use the 'Exponentiation by Squaring' algorithm, by calling
-  `Numbers.Helper.exp_by_sq(num, integer_power)` in the implementation,
+  `Numbers.Helper.pow_by_sq(num, integer_power)` in the implementation,
   which is a reasonably fast algorithm that uses `log(n)` multiplication steps.
   """
   @spec pow(t, non_neg_integer) :: t
