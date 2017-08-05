@@ -13,7 +13,7 @@ defimpl Numbers.Protocols.Multiplication, for: Integer do
 end
 
 defimpl Numbers.Protocols.Division, for: Integer do
-  def div(a, b), do: Kernel.div(a, b)
+  def div(a, b), do: a / b
 end
 
 defimpl Numbers.Protocols.Minus, for: Integer do
