@@ -70,6 +70,9 @@ defmodule NumericPairWithoutCoercion do
 
   Simply delegates everything to its two elements
   in a really naïve (but simple i.e. testable) way.
+
+  Does _not_ implement coercion with Integer or Float.
+  Also does _not_ implement `Numbers.Protocols.ToFloat`.
   """
 
   defstruct [:a, :b]
@@ -104,9 +107,5 @@ defmodule NumericPairWithoutCoercion do
 
   defimpl Numbers.Protocols.Minus do
     def minus(x), do: @for.new(N.minus(x.a), N.minus(x.b))
-  end
-
-  defimpl Numbers.Protocols.ToFloat do
-    def to_float(x), do: N.to_float(N.add(x.a, x.b))
   end
 end

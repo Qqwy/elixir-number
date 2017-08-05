@@ -45,7 +45,7 @@ defmodule NumbersTest do
         test "CannotCoerceError is raised when using built-in type #{lhs} (#{type}) as RHS in Numbers.#{operation}/2 for a type that does not have new/1." do
           a = unquote(lhs)
           b = unquote(rhs)
-          assert_raise Numbers.CannotCoerceError, fn ->
+          assert_raise UndefinedFunctionError, fn ->
             N.unquote(operation)(NumericPairWithoutCoercion.new(a, b), b) == NumericPairWithoutCoercion.new(N.unquote(operation)(a, b), N.unquote(operation)(b, b))
           end
 
@@ -55,7 +55,7 @@ defmodule NumbersTest do
         test "CannotCoerceError is raised when using built-in type #{lhs} (#{type}) as LHS in Numbers.#{operation}/2 for a type that does not have new/1." do
           a = unquote(lhs)
           b = unquote(rhs)
-          assert_raise Numbers.CannotCoerceError, fn ->
+          assert_raise UndefinedFunctionError, fn ->
             N.unquote(operation)(a, NumericPairWithoutCoercion.new(a, b)) == NumericPairWithoutCoercion.new(N.unquote(operation)(a, a), N.unquote(operation)(a, b))
           end
         end
@@ -92,7 +92,6 @@ defmodule NumbersTest do
         end
       end
 
-
       test "Numbers.to_float/1 is supported for built-in #{type}s (called with #{lhs} as argument)" do
         assert N.to_float(unquote(lhs)) === Kernel.*(1.0, unquote(lhs))
       end
@@ -102,9 +101,9 @@ defmodule NumbersTest do
         assert N.to_float(a) === Kernel.*(1.0, Kernel.+(unquote(lhs), unquote(rhs)))
       end
 
-      test "Numbers.to_float(%SomeStruct{}) raises Numbers.CannotConvertToFloatError if SomeStruct does not support to_float/1 conversion. ({#{lhs}, #{rhs}})" do
+      test "Numbers.to_float(%SomeStruct{}) will raise a Protocol.UndefinedError if SomeStruct does not implement the required protocol for the  to_float/1 conversion. ({#{lhs}, #{rhs}})" do
         a = NumericPairWithoutCoercion.new(unquote(lhs), unquote(rhs))
-        assert_raise Numbers.CannotConvertToFloatError, fn ->
+        assert_raise Protocol.UndefinedError, fn ->
           N.to_float(a) === Kernel.*(1.0, Kernel.+(unquote(lhs), unquote(rhs)))
        end
       end
