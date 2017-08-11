@@ -66,6 +66,8 @@ iex> N.mult(1.5, 100)
 Using Decimals: (requires the [Decimal](https://hex.pm/packages/decimal) library.)
 
 ```elixir
+iex> alias Numbers, as: N
+
 iex> d = Decimal.new(2)
 iex> N.div(d, 10)
 #Decimal<0.2>
