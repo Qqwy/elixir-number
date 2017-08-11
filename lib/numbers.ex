@@ -55,6 +55,9 @@ defmodule Numbers do
       iex> N.pow(small_number, 100)
       #Decimal<9.364478495445313580679473524E-280>
 
+  ## Defining your own Numbers implementations
+
+  See `Numbers.Protocols` for a full explanation on how to do this.
   """
 
   import Kernel, except: [div: 2]
