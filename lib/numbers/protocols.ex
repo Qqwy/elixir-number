@@ -3,7 +3,7 @@
 
 defmodule Numbers.Protocols do
   @moduledoc """
-  A set of protocols for the different numeric capabilities your data structure might provide.
+  A set of protocols that can be implemented for your data structure, to add `Numbers`-support to it. 
 
   In older versions of `Numbers`, structures were required to follow a single, very strict, behaviour.
   But because there are many different kind of structures that benefit from a numeric interface, including
@@ -13,10 +13,23 @@ defmodule Numbers.Protocols do
   By using the different protocols, each data structure can 'pick and choose' what functionality
   is supported. As protocol dispatching is used, the result should be a lot faster than in older
   versions of Numbers, which performed behaviour-based runtime dispatch on the struct name.
+
+
+  ## Coercion
+
+  Numbers does not automatically transform numbers from one type to another if one of the functions is called with two different types.
+
+  Frequently you do want to use other data types together with your custom data type. For this, a custom coercion can be specified,
+  using `Coerce.defcoercion/3` as exposed by the [`Coerce`](https://hex.pm/packages/coerce) library that `Numbers` depends on.
+
   """
 end
 
 defprotocol Numbers.Protocols.Addition do
+  @moduledoc """
+  For supporting `Numbers.add/2`.
+  """
+
   @doc """
   Adds two numbers together.
   """
@@ -49,6 +62,10 @@ defprotocol Numbers.Protocols.Addition do
 end
 
 defprotocol Numbers.Protocols.Subtraction do
+  @moduledoc """
+  For supporting `Numbers.sub/2`.
+  """
+
   @doc """
   Subtracts the rhs number from the lhs number.
   """
@@ -57,6 +74,10 @@ defprotocol Numbers.Protocols.Subtraction do
 end
 
 defprotocol Numbers.Protocols.Minus do
+  @moduledoc """
+  For supporting `Numbers.minus/1`.
+  """
+
   @doc """
   Unary minus. Should return the negation of the number.
   """
@@ -65,6 +86,10 @@ defprotocol Numbers.Protocols.Minus do
 end
 
 defprotocol Numbers.Protocols.Absolute do
+  @moduledoc """
+  For supporting `Numbers.abs/1`.
+  """
+
   @doc """
   The absolute value of a number.
   """
@@ -73,6 +98,10 @@ defprotocol Numbers.Protocols.Absolute do
 end
 
 defprotocol Numbers.Protocols.Multiplication do
+  @moduledoc """
+  For supporting `Numbers.mult/2`.
+  """
+
   @doc """
   Multiplies the two numbers together.
   """
@@ -105,6 +134,10 @@ defprotocol Numbers.Protocols.Multiplication do
 end
 
 defprotocol Numbers.Protocols.Division do
+  @moduledoc """
+  For supporting `Numbers.div/2`.
+  """
+
   @doc """
   Divides the rhs by the lhs.
 
@@ -115,6 +148,10 @@ defprotocol Numbers.Protocols.Division do
 end
 
 defprotocol Numbers.Protocols.Exponentiation do
+  @moduledoc """
+  For supporting `Numbers.pow/2`.
+  """
+
   @doc """
   Power function, x^n.
 
@@ -128,6 +165,10 @@ defprotocol Numbers.Protocols.Exponentiation do
 end
 
 defprotocol Numbers.Protocols.ToFloat do
+  @moduledoc """
+  For supporting `Numbers.to_float/1`.
+  """
+
   @doc """
   Convert the custom Numeric struct
   to the built-in float datatype.

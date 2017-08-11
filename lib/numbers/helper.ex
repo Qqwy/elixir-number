@@ -1,4 +1,9 @@
 defmodule Numbers.Helper do
+  @moduledoc """
+  Helper functions that might make the implementation
+  of Numbers for your own numberlike types easier.
+  """
+
   @doc """
   Performs 'Exponentiation by Squaring',
   which is a reasonably fast algorithm to compute integer powers,
