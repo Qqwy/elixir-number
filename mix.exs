@@ -3,7 +3,7 @@ defmodule Numbers.Mixfile do
 
   def project do
     [app: :numbers,
-     version: "5.0.0-rc0",
+     version: "5.0.1",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
