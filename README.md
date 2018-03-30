@@ -86,12 +86,13 @@ The package can be installed as:
 
 ```elixir
 def deps do
-  [{:numbers, "~> 5.0.1"}]
+  [{:numbers, "~> 5.1.1"}]
 end
 ```
 
 ## Changelog
 
+- 5.1.1 Updated Elixir version to 1.6.4
 - 5.1.0 Possibility to import overloaded operator variants. Also, greatly improved documentation.
 - 5.0.0 MAJOR OVERHAUL: New implementation based on a set of Protocols. Should be a lot faster and easier on implementers. Also uses a new method to perform coercions based on the `Coerce` library. [Announcement post](https://elixirforum.com/t/numbers-a-generic-wrapper-to-use-any-custom-numeric-type/2846/7)
 - 4.0.0 Breaking change: Move `Numeric` to `Numbers.Numeric`, to follow proper code organization conventions.
@@ -99,6 +100,6 @@ end
 - 3.0.0 Remove public `Numbers.coerce/2` function, as it had confused naming and very limited use. Added optional `Numeric.coerce/2` callback (which works very different from the old `Numbers.coerce/2` function) which is now used underwater when coercion should happen.
 - 2.0.3 Improving documentation.
 - 2.0.2 Adding many tests.
-- 2.0.1 Fixing error message that is shown when conversion to float is not possible to use the Inspect protocol. 
-- 2.0.0 Breaking change, `mul` -> `mult`. 
+- 2.0.1 Fixing error message that is shown when conversion to float is not possible to use the Inspect protocol.
+- 2.0.0 Breaking change, `mul` -> `mult`.
 - 1.0.0 First Stable Version.
