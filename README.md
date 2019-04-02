@@ -86,7 +86,7 @@ The package can be installed as:
 
 ```elixir
 def deps do
-  [{:numbers, "~> 5.0.1"}]
+  [{:numbers, "~> 5.1"}]
 end
 ```
 
