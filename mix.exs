@@ -36,7 +36,7 @@ defmodule Numbers.Mixfile do
     [
       {:coerce, "~> 1.0"},
 
-      {:decimal, "~> 1.3.0", optional: true},
+      {:decimal, "~> 1.7.0", optional: true},
 
       {:earmark, ">= 0.0.0", only: [:dev]},    # Markdown, dependency of ex_doc
       {:ex_doc, "~> 0.11",   only: [:dev]},    # Documentation for Hex.pm
