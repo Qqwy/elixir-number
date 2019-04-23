@@ -3,7 +3,7 @@ defmodule Numbers.Mixfile do
 
   def project do
     [app: :numbers,
-     version: "5.1.0",
+     version: "5.1.1",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -36,10 +36,9 @@ defmodule Numbers.Mixfile do
     [
       {:coerce, "~> 1.0"},
 
-      {:decimal, "~> 1.7.0", optional: true},
+      {:decimal, "~> 1.7", optional: true},
 
-      {:earmark, ">= 0.0.0", only: [:dev]},    # Markdown, dependency of ex_doc
-      {:ex_doc, "~> 0.11",   only: [:dev]},    # Documentation for Hex.pm
+      {:ex_doc, "~> 0.19", only: [:docs], runtime: false},
       {:inch_ex, only: :docs}                  # Inch CI documentation quality test.
     ]
   end

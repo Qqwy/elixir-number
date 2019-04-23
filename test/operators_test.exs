@@ -24,7 +24,7 @@ defmodule OperatorsTest do
 
   test "//2 works" do
     assert 1 / 2 == 0.5
-    assert Decimal.new(1) / 2 == Decimal.new(0.5)
+    assert Decimal.new(1) / 2 == Decimal.from_float(0.5)
     assert NumericPair.new(1, 2) / NumericPair.new(3, 4) == NumericPair.new(1 / 3, 0.5)
   end
 end
