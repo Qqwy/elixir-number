@@ -92,6 +92,7 @@ end
 
 ## Changelog
 
+- 5.1.1 Makes `Decimal` dependency version less specific to play nicer with other libraries :-).
 - 5.1.0 Possibility to import overloaded operator variants. Also, greatly improved documentation.
 - 5.0.0 MAJOR OVERHAUL: New implementation based on a set of Protocols. Should be a lot faster and easier on implementers. Also uses a new method to perform coercions based on the `Coerce` library. [Announcement post](https://elixirforum.com/t/numbers-a-generic-wrapper-to-use-any-custom-numeric-type/2846/7)
 - 4.0.0 Breaking change: Move `Numeric` to `Numbers.Numeric`, to follow proper code organization conventions.
