@@ -46,6 +46,28 @@ using `Coerce.defcoercion` as exposed by the [`Coerce`](https://hex.pm/packages/
 The only coercion that ships with Numbers itself, is a coercion of Integers to Floats, meaning that they work the same way as when using
 the standard library math functions with these types.
 
+## Overloaded Operators
+
+You can opt-in to overloaded `+, -, *, /` operators by calling `use Numbers, overload_operators: true**.
+This allows you to use these inline operators for all other Numberlike types.
+
+The library uses a conditional compilation technique to make sure that 
+**you will _still_ be able to use the operators inside guards** for built-in integers and floats.
+
+As example consider:
+```
+defmodule An.Example do
+use Numbers, overload_operators: true
+
+def foo(a, b) when a + b < 10 do  # Uses the normal guard-safe '+' operator (e.g. Kernel.+/2)
+42
+end
+def foo(c, d) do 
+c + d # Uses the overloaded '+' operator.
+end
+end
+```
+
 ## Examples:
 
 Using built-in numbers:
@@ -82,11 +104,11 @@ iex> N.pow(small_number, 100)
 
 The package can be installed as:
 
-  1. Add `numbers` to your list of dependencies in `mix.exs`:
+1. Add `numbers` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:numbers, "~> 5.1"}]
+[{:numbers, "~> 5.1"}]
 end
 ```
 
