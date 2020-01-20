@@ -55,7 +55,8 @@ The library uses a conditional compilation technique to make sure that
 **you will _still_ be able to use the operators inside guards** for built-in integers and floats.
 
 As example consider:
-```
+
+```elixir
 defmodule An.Example do
   use Numbers, overload_operators: true
 
