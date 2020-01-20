@@ -57,14 +57,14 @@ The library uses a conditional compilation technique to make sure that
 As example consider:
 ```
 defmodule An.Example do
-use Numbers, overload_operators: true
+  use Numbers, overload_operators: true
 
-def foo(a, b) when a + b < 10 do  # Uses the normal guard-safe '+' operator (e.g. Kernel.+/2)
-42
-end
-def foo(c, d) do 
-c + d # Uses the overloaded '+' operator.
-end
+  def foo(a, b) when a + b < 10 do  # Uses the normal guard-safe '+' operator (e.g. Kernel.+/2)
+    42
+  end
+  def foo(c, d) do 
+    c + d # Uses the overloaded '+' operator.
+  end
 end
 ```
 
