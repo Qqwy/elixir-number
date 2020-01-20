@@ -27,4 +27,16 @@ defmodule OperatorsTest do
     assert Decimal.new(1) / 2 == Decimal.from_float(0.5)
     assert NumericPair.new(1, 2) / NumericPair.new(3, 4) == NumericPair.new(1 / 3, 0.5)
   end
+
+  for {fun, operator} <- [add: :+, sub: :-, mult: :*, div: :/] do
+    test "Calling operator `#{operator}` in guards still works and calls guard-safe Kernel variants." do
+      defmodule unquote(Module.concat(Conflict, fun)) do
+        use Numbers, overload_operators: true
+
+        # This does not compile if `operator` in guard does not compile to Kernel.+/2.
+        def foo(a, b) when unquote(operator)(a, b) < 10, do: true
+        def foo(c, d), do: unquote(operator)(c, d)
+      end
+    end
+  end
 end
