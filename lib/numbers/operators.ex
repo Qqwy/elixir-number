@@ -33,7 +33,7 @@ defmodule Numbers.Operators do
     @operator operator
     defmacro unquote(operator)(a, b) do
       case __CALLER__.context do
-        :guard ->
+        context when context in [:guard, :match] ->
           quote do
             Kernel.unquote(@operator)(unquote(a), unquote(b))
           end

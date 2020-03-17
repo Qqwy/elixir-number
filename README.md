@@ -115,6 +115,7 @@ end
 
 ## Changelog
 
+- 5.2.1 Better error message when wrongly using an operator at the left side of a match (e.g. `a - 1 = 10`).
 - 5.2.0 Ensures that overloaded operators do not prevent built-in operators to be used in guards.
 - 5.1.1 Makes `Decimal` dependency version less specific to play nicer with other libraries :-).
 - 5.1.0 Possibility to import overloaded operator variants. Also, greatly improved documentation.
