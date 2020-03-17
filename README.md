@@ -48,7 +48,7 @@ the standard library math functions with these types.
 
 ## Overloaded Operators
 
-You can opt-in to overloaded `+, -, *, /` operators by calling `use Numbers, overload_operators: true**.
+You can opt-in to overloaded `+, -, *, /` operators by calling `use Numbers, overload_operators: true`.
 This allows you to use these inline operators for all other Numberlike types.
 
 The library uses a conditional compilation technique to make sure that 
