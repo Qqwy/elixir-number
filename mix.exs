@@ -3,8 +3,8 @@ defmodule Numbers.Mixfile do
 
   def project do
     [app: :numbers,
-     version: "5.2.1",
-     elixir: "~> 1.3",
+     version: "5.2.2",
+     elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
@@ -20,7 +20,7 @@ defmodule Numbers.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [extra_applications: [:logger]]
   end
 
   # Dependencies can be Hex packages:
