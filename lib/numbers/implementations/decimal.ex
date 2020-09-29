@@ -22,7 +22,7 @@ if Code.ensure_loaded?(Decimal) do
   end
 
   defimpl Numbers.Protocols.Minus, for: Decimal do
-    defdelegate minus(num), to: Decimal
+    defdelegate minus(num), to: Decimal, as: :negate
   end
 
   defimpl Numbers.Protocols.Absolute, for: Decimal do
