@@ -36,7 +36,7 @@ defmodule Numbers.Mixfile do
     [
       {:coerce, "~> 1.0"},
 
-      {:decimal, "~> 1.9", optional: true},
+      {:decimal, "~> 1.9 or ~> 2.0", optional: true},
 
       {:ex_doc, "~> 0.19", only: [:docs], runtime: false},
       {:inch_ex, only: :docs}                  # Inch CI documentation quality test.
