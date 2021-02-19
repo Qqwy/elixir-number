@@ -115,6 +115,7 @@ end
 
 ## Changelog
 
+- 5.2.4 Updates `:decimal` dependency to now allow both version `1.x` as well as version `2.x`.
 - 5.2.3 Updates `:decimal` dependency to `1.9` or newer, and replaces deprecated `Decimal.minus/1` call with `Decimal.negate/1`
 - 5.2.2 Updated `mix.exs` to use `extra_applications` rather than manually overridding `applications`. This drops support for now very old versions of Elixir (< v1.4) but ensures proper support with Elixir v1.11 and beyond.
 - 5.2.1 Better error message when wrongly using an operator at the left side of a match (e.g. `a - 1 = 10`).
