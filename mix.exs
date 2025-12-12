@@ -34,7 +34,7 @@ defmodule Numbers.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:coerce, "~> 1.0"},
+      {:coerce, "~> 1.0.2"},
 
       {:decimal, "~> 1.9 or ~> 2.0", optional: true},
 
