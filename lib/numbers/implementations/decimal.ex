@@ -37,17 +37,27 @@ if Code.ensure_loaded?(Decimal) do
     defdelegate pow(num, power), to: Numbers.Helper, as: :pow_by_sq
   end
 
-  require Coerce
-
-  Coerce.defcoercion(Decimal, Integer) do
-    def coerce(decimal, integer) do
-      {decimal, Decimal.new(integer)}
-    end
+  # Coerce.defcoercion is avoided here because its function_exported?/3 check
+  # is incompatible with Elixir 1.19's parallel compiler. These defmodule blocks
+  # are the equivalent expansion.
+  # Decimal.from_float/1 replaces Decimal.new/1 for floats (removed in Decimal 3.0).
+  defmodule Coerce.Implementations.Decimal.Integer do
+    @moduledoc false
+    def coerce(decimal, integer), do: {decimal, Decimal.new(integer)}
   end
 
-  Coerce.defcoercion(Decimal, Float) do
-    def coerce(decimal, float) do
-      {decimal, Decimal.new(float)}
-    end
+  defmodule Coerce.Implementations.Integer.Decimal do
+    @moduledoc false
+    def coerce(integer, decimal), do: {Decimal.new(integer), decimal}
+  end
+
+  defmodule Coerce.Implementations.Decimal.Float do
+    @moduledoc false
+    def coerce(decimal, float), do: {decimal, Decimal.from_float(float)}
+  end
+
+  defmodule Coerce.Implementations.Float.Decimal do
+    @moduledoc false
+    def coerce(float, decimal), do: {Decimal.from_float(float), decimal}
   end
 end

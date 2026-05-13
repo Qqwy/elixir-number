@@ -2,17 +2,17 @@ defmodule Numbers.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :numbers,
-     version: "5.2.4",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps(),
-
-     consolidate_protocols: Mix.env != :test, # Required to see new protocol implementations in the *.exs test helper files.
-
-     description: description(),
-     package: package()
+    [
+      app: :numbers,
+      version: "5.2.4",
+      elixir: "~> 1.4",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      deps: deps(),
+      # Required to see new protocol implementations in the *.exs test helper files.
+      consolidate_protocols: Mix.env() != :test,
+      description: description(),
+      package: package()
     ]
   end
 
@@ -35,11 +35,10 @@ defmodule Numbers.Mixfile do
   defp deps do
     [
       {:coerce, "~> 1.0"},
-
-      {:decimal, "~> 1.9 or ~> 2.0", optional: true},
-
+      {:decimal, "~> 3.0", optional: true},
       {:ex_doc, "~> 0.19", only: [:docs], runtime: false},
-      {:inch_ex, ">= 0.0.0",  only: :docs}                  # Inch CI documentation quality test.
+      # Inch CI documentation quality test.
+      {:inch_ex, ">= 0.0.0", only: :docs}
     ]
   end
 
@@ -51,7 +50,8 @@ defmodule Numbers.Mixfile do
   end
 
   defp package do
-    [# These are the default files included in the package
+    # These are the default files included in the package
+    [
       name: :numbers,
       files: ["lib", "mix.exs", "README*", "LICENSE"],
       maintainers: ["Wiebe-Marten Wijnja/Qqwy"],

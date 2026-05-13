@@ -35,10 +35,15 @@ defimpl Numbers.Protocols.ToFloat, for: Float do
   def to_float(x), do: x
 end
 
-# Allow functions to be called with an int as other argument as well
-require Coerce
-Coerce.defcoercion(Integer, Float) do
-  def coerce(int, float) do
-    {int + 0.0, float}
-  end
+# Coerce.defcoercion is avoided here because its function_exported?/3 check
+# is incompatible with Elixir 1.19's parallel compiler. These defmodule blocks
+# are the equivalent expansion.
+defmodule Coerce.Implementations.Integer.Float do
+  @moduledoc false
+  def coerce(int, float), do: {int + 0.0, float}
+end
+
+defmodule Coerce.Implementations.Float.Integer do
+  @moduledoc false
+  def coerce(float, int), do: {float, int + 0.0}
 end
