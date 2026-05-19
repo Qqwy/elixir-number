@@ -49,11 +49,11 @@ defmodule Numbers do
       iex> alias Numbers, as: N
       iex> d = Decimal.new(2)
       iex> N.div(d, 10)
-      #Decimal<0.2>
-      iex> small_number = N.div(d, 1234)
-      #Decimal<0.001620745542949756888168557536>
+      Decimal.new("0.2")
+      iex> small_number = N.div(d, 100)
+      Decimal.new("0.02")
       iex> N.pow(small_number, 100)
-      #Decimal<9.364478495445313580679473524E-280>
+      Decimal.new("1.267650600228229401496703205376E-170")
 
   ## Defining your own Numbers implementations
 

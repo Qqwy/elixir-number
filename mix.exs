@@ -3,7 +3,7 @@ defmodule Numbers.Mixfile do
 
   def project do
     [app: :numbers,
-     version: "5.2.4",
+     version: "5.2.5",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -34,9 +34,9 @@ defmodule Numbers.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:coerce, "~> 1.0"},
+      {:coerce, "~> 1.0.2"},
 
-      {:decimal, "~> 1.9 or ~> 2.0", optional: true},
+      {:decimal, "~> 3.0", optional: true},
 
       {:ex_doc, "~> 0.19", only: [:docs], runtime: false},
       {:inch_ex, ">= 0.0.0",  only: :docs}                  # Inch CI documentation quality test.
